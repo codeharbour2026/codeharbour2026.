@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOCK — Workspace</title>
+<style>
+:root{--bg:#0b0f15;--panel:#111722;--panel2:#151d2a;--line:#263243;--text:#e8eef7;--muted:#8492a6;--accent:#56b8f5;--accent2:#7c8cff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit}button{cursor:pointer;color:inherit;border:1px solid var(--line);background:var(--panel2);border-radius:9px;padding:8px 12px}button:hover{border-color:#49627f;background:#1b2738}.app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}.sidebar{background:#0e141d;border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:22px}.brand{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:750;letter-spacing:.12em;padding:0 8px}.brandmark{display:grid;place-items:center;width:34px;height:34px;background:#18324a;color:#7ed0ff;border-radius:10px;font-size:20px}.section-label{color:#66768b;font-size:10px;font-weight:700;letter-spacing:.13em;padding:0 10px;margin-bottom:7px}.nav{display:flex;flex-direction:column;gap:4px}.nav button{border:0;background:transparent;text-align:left;color:#9aa8bb;padding:10px;border-radius:8px}.nav button.active{background:#1b2a3b;color:#eaf6ff}.nav button span{display:inline-block;width:24px;color:#8aa0b9}.side-bottom{margin-top:auto;display:grid;gap:8px}.side-note{font-size:11px;color:#63748a;padding:8px}
+main{min-width:0;padding:26px clamp(16px,3vw,42px)}.topbar{display:flex;align-items:center;gap:12px;margin-bottom:28px}.breadcrumbs{color:var(--muted);font-size:12px}.topbar .right{margin-left:auto;display:flex;gap:8px}.title-row{display:flex;align-items:center;gap:12px;margin-bottom:7px}.title-row h1{font-size:26px;letter-spacing:-.04em;margin:0}.sub{color:var(--muted);margin:0 0 24px}.primary{background:#1977b9;border-color:#248bd1;color:white}.primary:hover{background:#2089ce}.ghost{background:transparent}.toolbar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}.toolbar .hint{color:#6f8096;font-size:12px;margin-left:auto}.workspace{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px;align-items:stretch}.tile{grid-column:span 4;min-height:180px;background:var(--panel);border:1px dashed #354458;border-radius:14px;position:relative;overflow:hidden;display:flex;flex-direction:column;min-width:0}.tile:hover{border-color:#527ca5}.tile.full{grid-column:span 12}.tile.half{grid-column:span 6}.tile.third{grid-column:span 4}.tile-head{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid #202b3a;color:#8fa0b5;font-size:12px}.tile-head .tile-name{color:#cbd6e4;font-weight:600}.tile-head .actions{margin-left:auto;display:flex;gap:4px}.tile-head button{padding:3px 7px;border:0;background:transparent;color:#7f91a7;font-size:13px}.tile-content{padding:16px;flex:1;min-width:0;overflow:auto}.empty{display:grid;place-items:center;text-align:center;min-height:145px;color:#78889e;gap:8px}.plus{font-size:25px;color:#5f7894}.empty strong{color:#a9b7c9;font-weight:550}.empty small{color:#61738a}.tile textarea,.tile input,.tile select{background:#0d131c;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:10px;width:100%;outline:none}.tile textarea{resize:vertical;min-height:110px}.tile input:focus,.tile textarea:focus{border-color:var(--accent)}.link-list{display:grid;gap:8px}.link-item{display:flex;align-items:center;gap:8px;padding:9px;border:1px solid var(--line);border-radius:8px;color:#b9dfff;text-decoration:none;overflow:hidden}.link-item:hover{background:#172333}.link-item span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.clock{font-size:34px;font-weight:650;letter-spacing:-.04em}.date{color:var(--muted);margin-top:4px}.counter{display:flex;align-items:center;justify-content:center;gap:16px;font-size:28px}.counter button{font-size:18px}.term{background:#080c11;color:#9de6b2;border-radius:8px;padding:12px;font:12px/1.6 ui-monospace,monospace;min-height:95px}.term span{color:#71bdf3}.drop-indicator{outline:2px solid var(--accent);outline-offset:2px}.footer{margin-top:24px;color:#586a80;font-size:11px;text-align:center}.overlay{position:fixed;inset:0;background:#03060ab8;display:none;align-items:center;justify-content:center;padding:16px;z-index:10}.overlay.show{display:flex}.modal{width:min(500px,100%);background:#121a26;border:1px solid #344255;border-radius:16px;padding:20px;box-shadow:0 20px 70px #0008}.modal h2{margin:0 0 6px;font-size:20px}.modal p{margin:0 0 18px;color:var(--muted);font-size:13px}.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.choice{text-align:left;padding:13px;display:flex;gap:10px;align-items:center}.choice b{display:block}.choice small{display:block;color:var(--muted);font-size:11px;margin-top:2px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.field{display:grid;gap:6px;margin:12px 0;color:#a6b5c8;font-size:12px}.field input,.field textarea,.field select{background:#0b1119;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:10px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1b293a;border:1px solid #3b526d;padding:10px 16px;border-radius:10px;display:none;z-index:20}.toast.show{display:block}
+@media(max-width:800px){.app{grid-template-columns:68px 1fr}.sidebar{padding:16px 8px}.brand{justify-content:center;padding:0}.brand .brandname,.section-label,.nav button .navtext,.side-note,.side-bottom button .navtext{display:none}.nav button{text-align:center;padding:12px 5px}.nav button span{width:auto}.side-bottom button{text-align:center;padding:10px 3px}main{padding:20px 14px}.tile{grid-column:span 6}.tile.third{grid-column:span 6}.tile.full{grid-column:span 12}.toolbar .hint{display:none}}
+@media(max-width:520px){.tile,.tile.half,.tile.third{grid-column:span 12}.topbar{margin-bottom:20px}.title-row h1{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="brandmark">▦</div><span class="brandname">DOCK</span></div>
+  <div><div class="section-label">WORKSPACE</div><nav class="nav" id="nav"></nav></div>
+  <div class="side-bottom">
+    <button id="newPageSide"><span>＋</span> <span class="navtext">New workspace</span></button>
+    <button id="exportSide"><span>⇩</span> <span class="navtext">Export layout</span></button>
+    <div class="side-note">Your space. Your setup.</div>
+  </div>
+</aside>
+<main>
+  <div class="topbar"><div class="breadcrumbs">DOCK / <span id="crumb">Workspace</span></div><div class="right"><button class="ghost" id="importBtn">Import</button><button class="primary" id="addBtn">＋ Add tile</button></div></div>
+  <div class="title-row"><h1 id="pageTitle">My Workspace</h1><button class="ghost" id="renameBtn" title="Rename workspace">✎</button></div>
+  <p class="sub">A blank canvas for your tools, links and ideas.</p>
+  <div class="toolbar"><button id="addSlot">＋ Empty slot</button><button id="clearBtn" class="ghost">Reset workspace</button><span class="hint">Drag tiles to rearrange · Resize with the bottom-right corner</span></div>
+  <section class="workspace" id="workspace"></section>
+  <div class="footer">DOCK saves automatically in this browser · Export to back up or share your layout</div>
+</main>
+</div>
+<div class="overlay" id="addOverlay"><div class="modal"><h2>Add to your workspace</h2><p>Choose what this tile should contain.</p><div class="modal-grid" id="choices"></div><div class="modal-actions"><button id="cancelAdd">Cancel</button></div></div></div>
+<div class="overlay" id="editOverlay"><div class="modal"><h2 id="editTitle">Configure tile</h2><div id="editFields"></div><div class="modal-actions"><button id="cancelEdit">Cancel</button><button class="primary" id="saveEdit">Save tile</button></div></div></div>
+<input type="file" id="fileInput" accept=".json,application/json" hidden>
+<div class="toast" id="toast"></div>
+<script>
+const STORE='dock-workspace-v1';
+const types=[
+ ['blank','＋','Empty slot','Keep a space open for later'],
+ ['note','▤','Notes','A simple editable note'],
+ ['links','↗','Quick links','Your favourite websites'],
+ ['clock','◷','Clock','Local time and date'],
+ ['counter','±','Counter','A simple click counter'],
+ ['terminal','>_','Terminal card','A decorative command panel'],
+ ['html','◇','Custom HTML','Add a small custom HTML snippet']
+];
+let state=load(), activePage=state.activePage||0, editing=null, pendingPage=null;
+function newPage(name='My Workspace'){return {id:crypto.randomUUID(),name,tiles:[blankTile(),blankTile(),blankTile(),blankTile()]}}
+function blankTile(){return {id:crypto.randomUUID(),type:'blank',title:'Empty slot',size:'third',data:{}}}
+function load(){try{let s=JSON.parse(localStorage.getItem(STORE));if(s&&Array.isArray(s.pages)&&s.pages.length)return s}catch(e){}return {activePage:0,pages:[newPage()]}}
+function save(){state.activePage=activePage;localStorage.setItem(STORE,JSON.stringify(state))}
+function page(){return state.pages[activePage]}
+function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(msg){let t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2100)}
+function render(){let p=page();document.getElementById('pageTitle').textContent=p.name;document.getElementById('crumb').textContent=p.name;
+ let nav=document.getElementById('nav');nav.innerHTML=state.pages.map((x,i)=>`<button class="${i===activePage?'active':''}" data-page="${i}"><span>▦</span><span class="navtext">${esc(x.name)}</span></button>`).join('');
+ nav.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>{activePage=+b.dataset.page;save();render()});
+ let ws=document.getElementById('workspace');ws.innerHTML=p.tiles.map(tileHTML).join('');
+ ws.querySelectorAll('.tile').forEach(el=>{let id=el.dataset.id;el.draggable=true;el.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',id);e.dataTransfer.effectAllowed='move'});el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('drop-indicator')});el.addEventListener('dragleave',()=>el.classList.remove('drop-indicator'));el.addEventListener('drop',e=>{e.preventDefault();el.classList.remove('drop-indicator');moveTile(e.dataTransfer.getData('text/plain'),id)});
+ el.querySelector('[data-edit]').onclick=()=>openEdit(id);el.querySelector('[data-delete]').onclick=()=>{p.tiles=p.tiles.filter(t=>t.id!==id);save();render()};
+ let ta=el.querySelector('textarea[data-note]');if(ta)ta.oninput=()=>{tileById(id).data.text=ta.value;save()};
+ let counter=el.querySelector('[data-counter]');if(counter){counter.textContent=tileById(id).data.count??0;el.querySelector('[data-minus]').onclick=()=>counterChange(id,-1);el.querySelector('[data-plus]').onclick=()=>counterChange(id,1)}
+ });
+}
+function tileById(id){return page().tiles.find(t=>t.id===id)}
+function tileHTML(t){let d=t.data||{},body='';
+ switch(t.type){
+ case 'blank':body=`<div class="empty"><div class="plus">＋</div><strong>Empty slot</strong><small>Click configure to add something</small><button data-config="${t.id}">Configure</button></div>`;break;
+ case 'note':body=`<textarea data-note placeholder="Write something...">${esc(d.text||'')}</textarea>`;break;
+ case 'links':body=`<div class="link-list">${(d.links||[]).map(l=>`<a class="link-item" href="${esc(l.url)}" target="_blank" rel="noopener"><span>↗</span><span>${esc(l.name||l.url)}</span></a>`).join('')||'<small style="color:var(--muted)">No links yet. Configure this tile to add some.</small>'}</div>`;break;
+ case 'clock':body=`<div class="clock" data-clock>--:--:--</div><div class="date" data-date>Loading date…</div>`;break;
+ case 'counter':body=`<div class="counter"><button data-minus>−</button><strong data-counter>${Number(d.count)||0}</strong><button data-plus>＋</button></div>`;break;
+ case 'terminal':body=`<div class="term"><div><span>user@dock</span>:~$ ${esc(d.command||'status')}</div><div>${esc(d.output||'Workspace ready. Add tiles to begin.')}</div><div><span>user@dock</span>:~$ <i>▍</i></div></div>`;break;
+ case 'html':body=`<div>${d.html||'<small style="color:var(--muted)">Add HTML in tile settings.</small>'}</div>`;break;
+ }
+ return `<article class="tile ${t.size||'third'}" data-id="${t.id}" style="resize:both"><div class="tile-head"><span>▦</span><span class="tile-name">${esc(t.title||types.find(x=>x[0]===t.type)?.[2]||'Tile')}</span><div class="actions"><button data-edit title="Configure">⚙</button><button data-delete title="Remove">×</button></div></div><div class="tile-content">${body}</div></article>`
+}
+function addTile(type='blank',target=null){let info=types.find(x=>x[0]===type)||types[0];let t={id:crypto.randomUUID(),type,title:info[2],size:'third',data:{}};if(type==='terminal')t.data={command:'status',output:'Workspace ready. Add tiles to begin.'};if(target){let i=page().tiles.findIndex(x=>x.id===target);page().tiles.splice(i+1,0,t)}else page().tiles.push(t);save();render();toast('Tile added')}
+function openAdd(target=null){pendingPage=target;document.getElementById('choices').innerHTML=types.map(t=>`<button class="choice" data-type="${t[0]}"><span style="font-size:20px;color:#7cc9ff">${t[1]}</span><span><b>${t[2]}</b><small>${t[3]}</small></span></button>`).join('');document.getElementById('choices').querySelectorAll('[data-type]').forEach(b=>b.onclick=()=>{let type=b.dataset.type;close('addOverlay');if(type==='blank')addTile(type,pendingPage);else{addTile(type,pendingPage);let last=page().tiles[page().tiles.length-1];openEdit(last.id)}});document.getElementById('addOverlay').classList.add('show')}
+function openEdit(id){editing=id;let t=tileById(id);if(!t)return;document.getElementById('editTitle').textContent='Configure '+(t.title||'tile');let fields=`<label class="field">Tile name<input id="fTitle" value="${esc(t.title)}"></label><label class="field">Tile size<select id="fSize"><option value="third">Small</option><option value="half">Medium</option><option value="full">Full width</option></select></label>`;
+ if(t.type==='links')fields+=`<label class="field">Links (one per line: name | URL)<textarea id="fLinks" rows="5">${esc((t.data.links||[]).map(l=>l.name+' | '+l.url).join('\n'))}</textarea></label>`;
+ if(t.type==='terminal')fields+=`<label class="field">Command label<input id="fCommand" value="${esc(t.data.command||'status')}"></label><label class="field">Output text<textarea id="fOutput">${esc(t.data.output||'')}</textarea></label>`;
+ if(t.type==='html')fields+=`<label class="field">HTML snippet<textarea id="fHTML" rows="7">${esc(t.data.html||'')}</textarea></label><small style="color:var(--muted)">Only add HTML you trust. Scripts are not enabled in this preview.</small>`;
+ if(t.type==='counter')fields+=`<label class="field">Starting count<input id="fCount" type="number" value="${Number(t.data.count)||0}"></label>`;
+ document.getElementById('editFields').innerHTML=fields;document.getElementById('fSize').value=t.size||'third';document.getElementById('editOverlay').classList.add('show')}
+function saveEdit(){let t=tileById(editing);if(!t)return;t.title=document.getElementById('fTitle').value.trim()||'Tile';t.size=document.getElementById('fSize').value;
+ if(t.type==='links'){t.data.links=document.getElementById('fLinks').value.split('\n').map(line=>line.split('|')).map(a=>({name:(a[0]||'').trim(),url:(a.slice(1).join('|')||a[0]||'').trim()})).filter(l=>l.url).map(l=>{if(!/^https?:\/\//i.test(l.url))l.url='https://'+l.url;if(!l.name)l.name=l.url;return l}))}
+ if(t.type==='terminal'){t.data.command=document.getElementById('fCommand').value;t.data.output=document.getElementById('fOutput').value}
+ if(t.type==='html'){t.data.html=document.getElementById('fHTML').value}
+ if(t.type==='counter')t.data.count=Number(document.getElementById('fCount').value)||0;
+ save();close('editOverlay');render();toast('Tile saved')}
+function counterChange(id,delta){let t=tileById(id);t.data.count=(Number(t.data.count)||0)+delta;save();render()}
+function moveTile(from,to){if(!from||from===to)return;let a=page().tiles,i=a.findIndex(t=>t.id===from),j=a.findIndex(t=>t.id===to);if(i<0||j<0)return;let [t]=a.splice(i,1);a.splice(j,0,t);save();render()}
+function close(id){document.getElementById(id).classList.remove('show')}
+document.getElementById('addBtn').onclick=()=>openAdd();document.getElementById('addSlot').onclick=()=>addTile('blank');document.getElementById('cancelAdd').onclick=()=>close('addOverlay');document.getElementById('cancelEdit').onclick=()=>close('editOverlay');document.getElementById('saveEdit').onclick=saveEdit;
+document.getElementById('workspace').addEventListener('click',e=>{let b=e.target.closest('[data-config]');if(b)openAdd(b.dataset.config)});
+document.getElementById('newPageSide').onclick=()=>{let name=prompt('Workspace name','New Workspace');if(name){state.pages.push(newPage(name));activePage=state.pages.length-1;save();render()}};
+document.getElementById('renameBtn').onclick=()=>{let n=prompt('Rename workspace',page().name);if(n&&n.trim()){page().name=n.trim();save();render()}};
+document.getElementById('clearBtn').onclick=()=>{if(confirm('Reset this workspace to four empty slots?')){page().tiles=[blankTile(),blankTile(),blankTile(),blankTile()];save();render()}};
+function exportLayout(){let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='dock-layout.json';a.click();URL.revokeObjectURL(url);toast('Layout exported')}
+document.getElementById('exportSide').onclick=exportLayout;document.getElementById('importBtn').onclick=()=>document.getElementById('fileInput').click();
+document.getElementById('fileInput').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let s=JSON.parse(r.result);if(!Array.isArray(s.pages))throw Error();state=s;activePage=Math.min(s.activePage||0,s.pages.length-1);save();render();toast('Layout imported')}catch(err){alert('That file does not look like a DOCK layout.')}};r.readAsText(f);e.target.value=''};
+function tick(){document.querySelectorAll('[data-clock]').forEach(el=>{let d=new Date();el.textContent=d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});let date=el.parentElement.querySelector('[data-date]');if(date)date.textContent=d.toLocaleDateString([], {weekday:'long',year:'numeric',month:'long',day:'numeric'})})}
+render();tick();setInterval(tick,1000);
+</script>
+</body>
+</html>
